@@ -1,35 +1,24 @@
-import React, { useState, useMemo } from 'react'; // useMemoを追加
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { BrowserRouter as Router, Routes, Route, Link as RouterLink } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
+import { CssBaseline, AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Box, Avatar, Menu, MenuItem, Switch } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import Brightness4Icon from '@mui/icons-material/Brightness4';
-import Brightness7Icon from '@mui/icons-material/Brightness7';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import InfoIcon from '@mui/icons-material/Info';
 import AppsIcon from '@mui/icons-material/Apps';
-import Box from '@mui/material/Box';
+import Brightness4Icon from '@mui/icons-material/Brightness4';
+import Brightness7Icon from '@mui/icons-material/Brightness7';
+import MenuIcon from '@mui/icons-material/Menu';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import { GoogleLogin } from '@react-oauth/google';
+import { useAuth } from './context/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 import HomePage from './pages/HomePage';
-
-import AboutPage from './pages/AboutPage'; // ★ 追加
-import AppsPage from './pages/Apps'; // ★ 追加
+import AboutPage from './pages/AboutPage';
+import AppsPage from './pages/Apps';
 import PortfolioPage from './pages/PortfolioPage';
 import SangiinTierPage from './pages/SangiinTierPage';
-import { Switch } from '@mui/material'; // Switchを追加
 
-// ナビゲーションメニューの定義
 const navItems = [
   { text: 'ホーム', path: '/', icon: <HomeIcon /> },
   { text: 'アバウト', path: '/about', icon: <InfoIcon /> },
@@ -38,17 +27,31 @@ const navItems = [
 
 function App() {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false); // ★ ダークモードの状態を復活
+  const [darkMode, setDarkMode] = useState(false);
+  const { user, login, logout, loading } = useAuth();
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleThemeChange = () => { // ★ ダークモード切り替えハンドラーを復活
+  const handleThemeChange = () => {
     setDarkMode(!darkMode);
   };
 
-  // ★ useMemoを使用してテーマを生成
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    logout();
+    handleClose();
+  };
+
   const theme = useMemo(
     () =>
       createTheme({
@@ -60,19 +63,6 @@ function App() {
           secondary: {
             main: darkMode ? '#f48fb1' : '#dc004e',
           },
-          success: {
-            main: darkMode ? '#81c784' : '#4caf50',
-          },
-          error: {
-            main: darkMode ? '#e57373' : '#f44336',
-          },
-          background: {
-            default: darkMode ? '#121212' : '#f4f6f8',
-            paper: darkMode ? '#1e1e1e' : '#ffffff',
-          },
-        },
-        typography: {
-          fontFamily: 'Roboto, Arial, sans-serif',
         },
       }),
     [darkMode]
@@ -83,34 +73,37 @@ function App() {
       <List>
         {navItems.map((item) => (
           <ListItem key={item.text} disablePadding>
-            <ListItemButton component={Link} to={item.path}>
-              <ListItemIcon sx={{ minWidth: 36 }}>
-                {item.icon}
-              </ListItemIcon>
+            <ListItemButton component={RouterLink} to={item.path}>
+              <ListItemIcon sx={{ minWidth: 36 }}>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
-        <ListItem disablePadding>
-          <ListItemButton>
+        {user && (
+          <ListItem disablePadding>
+            <ListItemButton component={RouterLink} to="/portfolio">
+              <ListItemIcon sx={{ minWidth: 36 }}>
+                <span role="img" aria-label="portfolio">💼</span>
+              </ListItemIcon>
+              <ListItemText primary="ポートフォリオ" />
+            </ListItemButton>
+          </ListItem>
+        )}
+        <ListItem>
             <ListItemIcon sx={{ minWidth: 36 }}>
               {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
             </ListItemIcon>
             <ListItemText primary="ダークモード" />
-            <Switch
-              checked={darkMode}
-              onChange={handleThemeChange}
-            />
-          </ListItemButton>
+            <Switch checked={darkMode} onChange={handleThemeChange} />
         </ListItem>
       </List>
     </Box>
   );
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Router>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
         <AppBar position="static">
           <Toolbar>
             <IconButton
@@ -118,25 +111,67 @@ function App() {
               aria-label="open drawer"
               edge="start"
               onClick={handleDrawerToggle}
-              sx={{ mr: 2, display: { md: 'none' } }}
+              sx={{ mr: 2, display: { sm: 'none' } }}
             >
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                 愚人亭一門
-              </Link>
+              </RouterLink>
             </Typography>
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               {navItems.map((item) => (
-                <Button key={item.text} color="inherit" component={Link} to={item.path} startIcon={item.icon}>
+                <Button key={item.text} color="inherit" component={RouterLink} to={item.path}>
                   {item.text}
                 </Button>
               ))}
-              <IconButton color="inherit" onClick={handleThemeChange}>
-                {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-              </IconButton>
+              {user && (
+                 <Button color="inherit" component={RouterLink} to="/portfolio">
+                   ポートフォリオ
+                 </Button>
+              )}
             </Box>
+            <Box sx={{ flexGrow: 1 }} />
+            <IconButton color="inherit" onClick={handleThemeChange}>
+              {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+            </IconButton>
+            {!loading && (
+              <>
+                {user ? (
+                  <div>
+                    <IconButton onClick={handleMenu} color="inherit">
+                      <Avatar alt={user.name} src={user.avatar} />
+                    </IconButton>
+                    <Menu
+                      id="menu-appbar"
+                      anchorEl={anchorEl}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      keepMounted
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      <MenuItem onClick={handleClose}>Profile</MenuItem>
+                      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                    </Menu>
+                  </div>
+                ) : (
+                  <GoogleLogin
+                    onSuccess={login}
+                    onError={() => {
+                      console.log('Login Failed');
+                    }}
+                  />
+                )}
+              </>
+            )}
           </Toolbar>
         </AppBar>
         <Box component="nav">
@@ -145,25 +180,31 @@ function App() {
             open={mobileOpen}
             onClose={handleDrawerToggle}
             ModalProps={{
-              keepMounted: true,
+              keepMounted: true, // Better open performance on mobile.
             }}
             sx={{
-              display: { xs: 'block', md: 'none' },
+              display: { xs: 'block', sm: 'none' },
               '& .MuiDrawer-paper': { boxSizing: 'border-box', width: 240 },
             }}
           >
             {drawer}
           </Drawer>
         </Box>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} /> {/* ★ 復活 */}
-          <Route path="/apps" element={<AppsPage />} /> {/* ★ 復活 */}
-          <Route path="/portfolio" element={<PortfolioPage />} />
-          <Route path="/SangiinTierPage" element={<SangiinTierPage />} />
-        </Routes>
-      </Router>
-    </ThemeProvider>
+        <main>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/apps" element={<AppsPage />} />
+            <Route path="/portfolio" element={
+              <PrivateRoute>
+                <PortfolioPage />
+              </PrivateRoute>
+            } />
+            <Route path="/SangiinTierPage" element={<SangiinTierPage />} />
+          </Routes>
+        </main>
+      </ThemeProvider>
+    </Router>
   );
 }
 

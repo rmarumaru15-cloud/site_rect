@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# 愚人亭一門 公式サイト
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+これは、愚人亭一門の活動を紹介し、開発したWebアプリケーションを公開するための公式サイトです。
 
-## Available Scripts
+## 概要
 
-In the project directory, you can run:
+このプロジェクトは、React製のフロントエンドとNode.js (Express)製のバックエンドで構成されています。サイト訪問者は、運営者のプロフィールや活動内容を閲覧できるほか、ポートフォリオ管理ツールや参議院選挙Tier表作成ツールなどのアプリケーションを利用できます。
 
-### `npm start`
+より詳細な技術仕様やコンポーネント設計については、[**アプリケーション設計図 (DESIGN.md)**](./DESIGN.md) を参照してください。
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 主な機能
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **ホームページ**: 運営者紹介、最新情報、SNSタイムラインの表示。
+- **ポートフォリオ管理アプリ**: ユーザーの資産状況を可視化し、管理する機能。
+- **参議院Tier表作成ツール**: 2025年参議院選挙の政党・候補者を主観でランク付けし、オリジナルのTier表を作成・共有するツール。
+- **音声コマンド・音声アップロード**: (開発中) 音声による操作や録音ファイルのアップロード機能。
 
-### `npm test`
+## セットアップと実行方法
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 前提条件
 
-### `npm run build`
+- [Node.js](https://nodejs.org/) (v18.x以上を推奨)
+- [npm](https://www.npmjs.com/) (Node.jsに同梱)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. 依存関係のインストール
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+プロジェクトのルートディレクトリで、以下のコマンドを実行して必要なパッケージをすべてインストールします。
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+```
 
-### `npm run eject`
+### 2. バックエンドサーバーの起動
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+まず、バックエンドのAPIサーバーを起動します。
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+node server/index.js
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+成功すると、コンソールに `Server is running on http://localhost:5000` と表示されます。
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3. フロントエンド開発サーバーの起動
 
-## Learn More
+次に、別のターミナルを開き、フロントエンドの開発サーバーを起動します。
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+npm start
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+自動的にブラウザで `http://localhost:3000` が開き、サイトが表示されます。
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+このプロジェクトは [Create React App](https://github.com/facebook/create-react-app) をベースに構築されています。
