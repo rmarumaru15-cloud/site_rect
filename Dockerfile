@@ -1,0 +1,15 @@
+# 開発用のDockerイメージ
+
+# ベースとしてNode.jsイメージを使用
+FROM node:18-alpine
+
+# コンテナ内の作業ディレクトリを設定
+WORKDIR /app
+
+# package.jsonとpackage-lock.jsonをコピーし、npmパッケージをインストール
+COPY package*.json ./
+RUN npm install
+
+# 開発サーバーを起動するためのコマンド
+CMD ["npm", "run", "start"]
+

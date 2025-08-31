@@ -1,0 +1,78 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34; /* 背景色。変更・削除してOK */
+  min-height: 100vh; /* 画面全体の高さになってしまう。ヘッダーなら小さい値に */
+  display: flex;
+  flex-direction: column; /* 縦方向に並べる。ヘッダーなら横方向に変更 */
+  align-items: center; /* 横方向の中央寄せ。 */
+  justify-content: center; /* 縦方向の中央寄せ。 */
+  font-size: calc(10px + 2vmin);
+  color: white; /* 文字色 */
+}
+
+/* その他のロゴやリンクのスタイルは必要に応じて */
+.App-logo { /* ... */ }
+.App-link { /* ... */ }
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+/* --- スマートフォン向けの調整例 --- */
+@media (max-width: 768px) { /* 画面幅が768px以下の場合に適用されるCSS */
+  .App-header {
+    flex-direction: column; /* 縦並びにする */
+    padding: 15px 20px;
+    align-items: flex-start; /* 左寄せにする */
+  }
+
+  .App-header nav ul {
+    flex-direction: column; /* ナビゲーション項目も縦並びにする */
+    width: 100%; /* 幅をいっぱいに広げる */
+    margin-top: 10px; /* 上部に少し余白 */
+  }
+
+  .App-header nav li {
+    margin-left: 0; /* 左側の余白をなくす */
+    margin-bottom: 8px; /* 下部に余白 */
+  }
+
+  .App-title h1 {
+    font-size: 20px; /* フォントサイズを少し小さく */
+  }
+}
+
+/* さらに小さなデバイス向けの調整（例：480px以下） */
+@media (max-width: 480px) {
+  .App-header {
+    padding: 10px 15px;
+  }
+  .App-title h1 {
+    font-size: 18px;
+  }
+}
