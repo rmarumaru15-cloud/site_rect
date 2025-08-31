@@ -1,0 +1,6 @@
+Creating tables...
+Server is running on http://localhost:5000
+Connected to SQLite database.
+Profiles table created or already exists.
+Portfolios table created or already exists.
+Voice_commands table created or already exists.

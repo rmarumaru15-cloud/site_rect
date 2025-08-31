@@ -51,7 +51,7 @@ const nonReelectionSeats = {
   '諸派': 0, // カスタムアイテムや諸派は0としています
 };
 
-const SangiinTierApp = () => {
+const SangiinTierPage = () => {
   const [items, setItems] = useState(initialItemsData);
   const [newItemName, setNewItemName] = useState('');
   const [newItemType, setNewItemType] = useState('party');
@@ -790,4 +790,4 @@ const SangiinTierApp = () => {
   );
 };
 
-export default SangiinTierApp;
+export default SangiinTierPage;

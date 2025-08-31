@@ -136,10 +136,14 @@ app.post('/voice-command', (req, res) => {
   // コマンド履歴をDBに保存
   db.run(
     'INSERT INTO voice_commands (command, result) VALUES (?, ?)',
-    // 他のコマンドもここに追加可能
-    default:
-      response = `コマンド「${command}」は認識できませんでした。`;
-  }
+    [command, response],
+    (err) => {
+      if (err) {
+        // エラーが発生しても、ユーザーへのレスポンスは返す
+        console.error('Error inserting voice command:', err.message);
+      }
+    }
+  );
   res.json({ result: response });
 });
 

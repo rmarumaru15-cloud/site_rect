@@ -1,10 +1,10 @@
-// src/pages/HomePage.js
+// src/pages/AboutPage.js
 import React from 'react';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-function HomePage() {
+function AboutPage() {
   return (
     <Container maxWidth="md"> {/* コンテンツの最大幅を設定 */}
       <Box sx={{ my: 4 }}> {/* 上下のマージンを追加 */}
@@ -25,4 +25,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default AboutPage;

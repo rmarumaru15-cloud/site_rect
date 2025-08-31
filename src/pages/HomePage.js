@@ -33,7 +33,7 @@ function HomePage() {
 
         {/* --- 最新アプリセクション --- */}
         <Typography variant="h5" component="h2" gutterBottom sx={{ mt: 6, mb: 3 }}>
-          最新アプリあ
+          最新アプリ
         </Typography>
         <Grid container spacing={4} justifyContent="center">
           <Card elevation={3} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: 3 }}>
@@ -68,7 +68,7 @@ function HomePage() {
                 variant="contained"
                 color="primary"
                 component={RouterLink} // RouterLinkを使用
-                to="/sangiin-tier"
+                to="/SangiinTierPage"
                 sx={{ mt: 2 }}
               >
                 アプリを試す
