@@ -28,25 +28,20 @@ export const AuthProvider = ({ children }) => {
     checkLoggedIn();
   }, []);
 
-  const login = async (credentialResponse) => {
-    try {
-      const { data } = await axios.post(`${API_BASE_URL}/api/auth/google`, {
-        token: credentialResponse.credential,
-      });
-      setUser(data);
-    } catch (err) {
-      console.error('Login failed:', err);
-      setUser(null);
-    }
+  const login = () => {
+    // NOTE: This is a mock login function for testing purposes.
+    const mockUser = {
+      name: 'Test User',
+      avatar: 'https://i.pravatar.cc/150?u=a042581f4e29026704d', // A random avatar
+    };
+    setUser(mockUser);
+    console.log('Logged in as Test User.');
   };
 
-  const logout = async () => {
-    try {
-      await axios.post(`${API_BASE_URL}/api/auth/logout`);
-      setUser(null);
-    } catch (err) {
-      console.error('Logout failed:', err);
-    }
+  const logout = () => {
+    // NOTE: This is a mock logout function for testing purposes.
+    setUser(null);
+    console.log('Logged out.');
   };
 
   const value = { user, login, logout, loading };

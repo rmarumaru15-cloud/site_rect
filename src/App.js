@@ -8,7 +8,6 @@ import AppsIcon from '@mui/icons-material/Apps';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import MenuIcon from '@mui/icons-material/Menu';
-import { GoogleLogin } from '@react-oauth/google';
 import { useAuth } from './context/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 
@@ -162,12 +161,9 @@ function App() {
                     </Menu>
                   </div>
                 ) : (
-                  <GoogleLogin
-                    onSuccess={login}
-                    onError={() => {
-                      console.log('Login Failed');
-                    }}
-                  />
+                  <Button color="inherit" onClick={login}>
+                    テストログイン
+                  </Button>
                 )}
               </>
             )}
