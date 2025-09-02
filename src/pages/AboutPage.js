@@ -17,7 +17,7 @@ function AboutPage() {
 
            </Typography>
         <Typography variant="body1">
-          <a href = "https://docs.google.com/forms/d/e/1FAIpQLSfAHOX78LVKX36yzafVzBjCZV9AQjompJpq07PdfN76ISyjQQ/viewform?usp=header"  target="_blank">問い合わせ先</a>
+          <a href = "https://docs.google.com/forms/d/e/1FAIpQLSfAHOX78LVKX36yzafVzBjCZV9AQjompJpq07PdfN76ISyjQQ/viewform?usp=header"  target="_blank" rel="noopener noreferrer">問い合わせ先</a>
         </Typography>
         {/* 他のコンテンツもMUIコンポーネントで追加 */}
       </Box>

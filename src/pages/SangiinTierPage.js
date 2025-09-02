@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Trash2, RotateCcw, Plus, Share2, Download, Twitter, Instagram, Copy } from 'lucide-react';
+import { Trash2, RotateCcw, Plus, Share2, Download, Twitter, Copy } from 'lucide-react';
 import {
   AppBar, Toolbar, Typography, Button, Container, Box,
-  TextField, Select, MenuItem, Paper, Grid, IconButton, Dialog, DialogTitle, DialogContent, DialogActions
+  TextField, Select, MenuItem, Paper, IconButton, Dialog, DialogTitle, DialogContent, DialogActions
 } from '@mui/material';
 import html2canvas from 'html2canvas';
 import * as d3 from 'd3';
@@ -58,7 +58,6 @@ const SangiinTierPage = () => {
   const [shareUrl, setShareUrl] = useState('');
   const [showShareModal, setShowShareModal] = useState(false);
   const [showStatsModal, setShowStatsModal] = useState(false);
-  const [totalEstimatedSeats, setTotalEstimatedSeats] = useState(0); // 合計議席数表示用
   const [ldpKomeiTotalSeats, setLdpKomeiTotalSeats] = useState(0); // 自公合計議席数表示用
   const tierListRef = useRef(null); // 画像キャプチャ対象のref
   const chartRef = useRef(null);   // D3.js チャート描画用のref
@@ -371,8 +370,7 @@ const SangiinTierPage = () => {
     });
 
     const d3Data = [];
-    let currentTotalEstimatedSeats = 0;
-    let currentLdpKomeiTotalSeats = 0;
+    let ldpKomeiTotalSeats = 0;
 
     items.forEach(item => {
         if (item.type === 'party') {
@@ -393,16 +391,13 @@ const SangiinTierPage = () => {
                 });
             }
             
-            currentTotalEstimatedSeats += totalPartySeats;
-
             if (item.name === '自民党' || item.name === '公明党') {
-                currentLdpKomeiTotalSeats += totalPartySeats;
+                ldpKomeiTotalSeats += totalPartySeats;
             }
         }
     });
 
-    setTotalEstimatedSeats(Math.round(currentTotalEstimatedSeats));
-    setLdpKomeiTotalSeats(Math.round(currentLdpKomeiTotalSeats));
+    setLdpKomeiTotalSeats(Math.round(ldpKomeiTotalSeats));
 
     if (d3Data.length > 0) {
         drawSenjoGisekiChart(d3Data);

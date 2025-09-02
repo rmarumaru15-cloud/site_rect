@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import AddAssetForm from '../components/AddAssetForm';
 
 import Container from '@mui/material/Container';
@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -18,7 +17,6 @@ import TableRow from '@mui/material/TableRow';
 import TableSortLabel from '@mui/material/TableSortLabel';
 import Paper from '@mui/material/Paper';
 import Chip from '@mui/material/Chip';
-import Button from '@mui/material/Button';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { PieChart } from '@mui/x-charts/PieChart';
@@ -30,11 +28,6 @@ const currencyFormatter = new Intl.NumberFormat('ja-JP', {
 });
 
 const percentFormatter = (value) => `${(value * 100).toFixed(2)}%`;
-
-const signedCurrencyFormatter = (value) => {
-  const formatted = currencyFormatter.format(value);
-  return value > 0 ? `+${formatted}` : formatted;
-};
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -72,7 +65,7 @@ const headCells = [
 
 
 function PortfolioPage() {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
   const [portfolioData, setPortfolioData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [order, setOrder] = useState('asc');

@@ -1,13 +1,13 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../context/AuthContext';
 
-const AddAssetForm = ({ setPortfolioData }) => {
+const AddAssetForm = ({ onAssetAdded }) => {
   const [assetType, setAssetType] = useState('stock');
   const [symbol, setSymbol] = useState('');
   const [quantity, setQuantity] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,13 +17,18 @@ const AddAssetForm = ({ setPortfolioData }) => {
     }
 
     try {
+      const token = localStorage.getItem('token');
       const response = await axios.post('/api/portfolio', {
         asset_type: assetType,
         symbol,
         quantity: parseFloat(quantity),
         purchase_price: parseFloat(purchasePrice),
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
-      setPortfolioData(prevData => [...prevData, response.data]);
+      onAssetAdded(response.data);
       setSymbol('');
       setQuantity('');
       setPurchasePrice('');
